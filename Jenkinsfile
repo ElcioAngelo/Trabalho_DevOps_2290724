@@ -40,8 +40,8 @@ pipeline {
         stage('Test') {
             steps{
                 script {
-                    sh cd test && pip install -r requirements.txt
-                    sh python3 test.py  
+                    sh 'cd test && pip install -r requirements.txt'
+                    sh 'python3 test.py'  
                 }
             }
         }
