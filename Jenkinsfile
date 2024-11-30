@@ -20,6 +20,17 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            steps{
+                script {
+                    sh 'docker compose up flaskapp_container'
+                    sh 'docker compose up mariadb_container'
+                    sh 'cd test && pip install -r requirements.txt'
+                    sh 'python3 test.py'  
+                }
+            }
+        }
+
         stage('Build') { 
             steps {
                 script {
@@ -32,13 +43,5 @@ pipeline {
                 }
             }
         } 
-        stage('Test') {
-            steps{
-                script {
-                    sh 'cd test && pip install -r requirements.txt'
-                    sh 'python3 test.py'  
-                }
-            }
-        }
     }
 }
