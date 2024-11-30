@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     // Start the containers in detached mode with build
-                    sh 'docker compose up -d --build'
+                    sh 'docker compose up --build'
 
                     // Optional: Sleep for a fixed time to allow the containers to initialize
                     echo 'Sleeping for 10 seconds to allow containers to initialize...'
