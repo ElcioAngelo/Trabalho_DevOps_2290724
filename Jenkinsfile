@@ -23,8 +23,10 @@ pipeline {
         stage('Test') {
             steps{
                 script {
-                    sh 'docker compose up flaskapp_container'
-                    sh 'docker compose up mariadb_container'
+                    sh 'docker compose up --build -d mariadb_container'
+                    sh 'sleep(time: 10, unit: 'SECONDS')'
+                    sh 'docker compose up --build -d flaskapp_container'
+                    sh 'sleep(time: 10, unit: 'SECONDS')'                    
                     sh 'cd test && pip install -r requirements.txt'
                     sh 'python3 test.py'  
                 }
