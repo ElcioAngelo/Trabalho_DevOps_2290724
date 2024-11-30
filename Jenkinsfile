@@ -11,14 +11,9 @@ pipeline {
                     def repoDir = 'trabalho-devops-2290724'
                     if (fileExists(repoDir)) {
                         echo "Repository already exists. Pulling latest changes."
-                        dir(repoDir) {
-                            sh 'git pull origin main'
-                        }
-                    } else {
-                        echo "Cloning repository."
+                        sh "rm -rf ${repoDir}"
                         sh 'git clone https://github.com/ElcioAngelo/trabalho-devops-2290724.git'
-                    }
-                    
+                    } 
                     dir(repoDir) {
                         sh 'git checkout main'
                     }
