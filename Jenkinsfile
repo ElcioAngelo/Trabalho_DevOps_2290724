@@ -20,6 +20,17 @@ pipeline {
                 }
             }
         }
+        stage('test') {
+            steps {
+                script {
+                    sh '''
+                    docker compose up mariadb
+                    sleep 10 
+                    docker compose up flask
+                    '''
+                }
+            }
+        }
         stage('Build') { 
             steps {
                 script {
