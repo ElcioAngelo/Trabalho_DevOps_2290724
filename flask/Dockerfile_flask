@@ -10,7 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py /app/
 COPY app_test.py /app/
 COPY entrypoint.sh /app/
-COPY /wait-for-it/wait-for-it.sh /app/
 
 RUN chmod +x /app/entrypoint.sh
 
