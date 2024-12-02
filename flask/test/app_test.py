@@ -54,73 +54,73 @@
         
 # if __name__ == "__main__":
 #     main()
-    
-import time
+  
+import pytest
 import requests
+from unittest.mock import patch
 
-
-class FlaskApp:
-    def __init__(self, flask_app_url: str, register_user_url: str):
-        self.flask_app_url = flask_app_url
-        self.register_user_url = register_user_url
-
-    def is_container_running(self) -> bool:
-        """Check if the Flask container is running."""
-        try:
-            response = requests.get(self.flask_app_url)
-            if response.status_code == 200:
-                print("Container is up and running!")
-                return True
-            else:
-                print("Container is not running...")
-                return False
-        except requests.exceptions.RequestException as e:
-            print(f"Error checking container: {e}")
-            return False
-
-    def register_user(self, user_data: dict) -> bool:
-        """Register a user by posting user data to the specified URL."""
-        try:
-            response = requests.post(self.register_user_url, json=user_data)
-            if response.status_code == 200:
-                print("User created successfully!")
-                return True
-            else:
-                print("Failed to create user...")
-                return False
-        except requests.exceptions.RequestException as e:
-            print(f"Error creating user: {e}")
-            return False
-
-
-def main():
-    flask_app_url = 'http://localhost:5000'
-    register_user_url = 'http://localhost:5000/alunomodelview/add'
+def is_server_running(url: str) -> bool:
+    try:
+        response = requests.get(url)
+        return response.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
+    
+def create_user(url: str, nome: str, sobrenome: str, matricula: str, turma: str):
     user_data = {
-        'nome': 'UsuarioTeste',
-        'sobrenome': 'sobreUusarioTeste',
-        'turma': 'TurmaDoUsuarioTeste',
-        'disciplina': 'DisciplinaTeste',
+        "nome": nome,
+        "sobrenome": sobrenome,
+        "matricula": matricula,
+        "turma": turma
+    }
+    response = requests.post(f"{url}/create_user", json=user_data)
+    return response.status_code, response.json()  # Assume the response contains status and user data
+    
+
+
+
+# Test the server availability check
+def test_is_server_running():
+    url = "http://localhost:5000"  # Use a real test URL or a mock server URL
+    with patch("requests.get") as mock_get:
+        mock_get.return_value.status_code = 200
+        assert is_server_running(url) is True
+
+        mock_get.return_value.status_code = 404
+        assert is_server_running(url) is False
+
+# Test creating a new user
+def test_create_user():
+    url = "http://localhost:5000/alunomodelview/add"
+    user_data = {
+        "nome": "John",
+        "sobrenome": "Doe",
+        "disciplinas": "12345",
+        "turma": "A1"
     }
 
-    flask_app = FlaskApp(flask_app_url, register_user_url)
+    with patch("requests.post") as mock_post:
+        # Mock successful response
+        mock_post.return_value.status_code = 201
+        mock_post.return_value.json.return_value = {"id": 1, **user_data}
+        
+        status_code, response = create_user(url, **user_data)
+        assert status_code == 201
+        assert response["nome"] == user_data["nome"]
+        assert response["sobrenome"] == user_data["sobrenome"]
+        assert response["disciplinas"] == user_data["disciplinas"]
+        assert response["turma"] == user_data["turma"]
 
-    retries = 5
-    while retries > 0:
-        if flask_app.is_container_running():
-            flask_app.register_user(user_data)
-            break
-        else:
-            retries -= 1
-            print("Retrying in 5 seconds...")
-            time.sleep(5)
-    else:
-        print("Container failed to start.")
+        # Test error response
+        mock_post.return_value.status_code = 400
+        mock_post.return_value.json.return_value = {"error": "Invalid data"}
+        
+        status_code, response = create_user(url, **user_data)
+        assert status_code == 400
+        assert response["error"] == "Invalid data"
 
 
-if __name__ == "__main__":
-    main()
-       
+
             
     
         
