@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 #COPY . .
 COPY app.py /app/
-COPY ./test/test.py /app/
+COPY ./test/app_test.py /app/
+COPY entrypoint.sh /app/
+RUN chmod +x /app/entrypoint.sh
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
