@@ -4,8 +4,10 @@
 echo "Running tests with pytest..."
 pytest app_test.py 
 
-# Check if pytest passed (exit code 0 means tests passed)
+#Waits 30 seconds for the mariaDB initialization.
 sleep 30
+
+#verifies if the test was sucessfull or not.
 if [ $? -eq 0 ]; then
   echo "Tests passed. Starting Flask app..."
   # Run the Flask app

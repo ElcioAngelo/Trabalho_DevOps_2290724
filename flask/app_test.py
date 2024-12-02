@@ -9,12 +9,13 @@ def is_server_running(url: str) -> bool:
     except requests.exceptions.RequestException:
         return False
     
-def create_user(url: str, nome: str, sobrenome: str, disciplinas: str, turma: str):
+def create_user(url: str, nome: str, sobrenome: str, disciplinas: str, turma: str,Ra: str):
     user_data = {
         "nome": nome,
         "sobrenome": sobrenome,
+        "Ra":Ra,
         "disciplinas": disciplinas,
-        "turma": turma
+        "turma": turma,
     }
     response = requests.post(f"{url}/create_user", json=user_data)
     return response.status_code, response.json()  # Assume the response contains status and user data
@@ -36,10 +37,11 @@ def test_is_server_running():
 def test_create_user():
     url = "http://localhost:5000/alunomodelview/add"
     user_data = {
-        "nome": "John",
-        "sobrenome": "Doe",
-        "disciplinas": "12345",
-        "turma": "A1"
+        "nome": "Testandooo",
+        "sobrenome": "teste",
+        "Ra": "4412412421412",
+        "disciplinas": "testandooo3",
+        "turma": "B9"
     }
 
     with patch("requests.post") as mock_post:

@@ -35,6 +35,7 @@ class Aluno(db.Model):
     sobrenome = db.Column(db.String(50), nullable=False)
     turma = db.Column(db.String(50), nullable=False)
     disciplinas = db.Column(db.String(200), nullable=False)
+    Ra = db.column(db.string(20),nullabe=False)
 
 
 # Tentar conectar até o MariaDB estar pronto
@@ -66,7 +67,7 @@ for i in range(attempts):
 # Visão do modelo Aluno para o painel administrativo
 class AlunoModelView(ModelView):
     datamodel = SQLAInterface(Aluno)
-    list_columns = ['id', 'nome', 'sobrenome', 'turma', 'disciplinas']
+    list_columns = ['id', 'nome', 'sobrenome', 'Ra','turma', 'disciplinas']
 
 # Adicionar a visão do modelo ao AppBuilder
 appbuilder.add_view(
@@ -80,7 +81,7 @@ appbuilder.add_view(
 @app.route('/alunos', methods=['GET'])
 def listar_alunos():
     alunos = Aluno.query.all()
-    output = [{'id': aluno.id, 'nome': aluno.nome, 'sobrenome': aluno.sobrenome, 'turma': aluno.turma, 'disciplinas': aluno.disciplinas} for aluno in alunos]
+    output = [{'id': aluno.id, 'nome': aluno.nome, 'sobrenome':aluno.sobrenome,'RA': aluno.Ra ,'turma': aluno.turma, 'disciplinas': aluno.disciplinas} for aluno in alunos]
     return jsonify(output)
 
 # Rota para adicionar um aluno - Método POST
