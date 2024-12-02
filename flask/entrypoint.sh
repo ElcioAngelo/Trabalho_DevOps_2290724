@@ -5,7 +5,7 @@ echo "Running tests with pytest..."
 pytest app_test.py 
 
 #Waits 30 seconds for the mariaDB initialization.
-sleep 30
+sleep 5
 
 #verifies if the test was sucessfull or not.
 if [ $? -eq 0 ]; then
