@@ -40,7 +40,7 @@ pipeline {
                     sh '''
                         docker container prune
                         docker compose down
-                        docker compose up --build
+                        docker compose up --build -d
                     '''  
                 }
             }
