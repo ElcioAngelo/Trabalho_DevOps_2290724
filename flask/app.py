@@ -35,7 +35,7 @@ class Aluno(db.Model):
     sobrenome = db.Column(db.String(50), nullable=False)
     turma = db.Column(db.String(50), nullable=False)
     disciplinas = db.Column(db.String(200), nullable=False)
-    Ra = db.column(db.string(20),nullabe=False)
+    Ra = db.Column(db.String(20),nullabe=False)
 
 
 # Tentar conectar até o MariaDB estar pronto
