@@ -24,6 +24,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    docker container prune
                     docker compose up mariadb
                     sleep 10 
                     docker compose up flask
