@@ -12,10 +12,10 @@ git clone https://github.com/ElcioAngelo/trabalho-devops-2290724.git
 cd repository
 
 # Parar e remover containers ativos
-docker-compose down
+docker compose down
 
 # Subir os containers
-docker-compose up --build -d
+docker compose up --build -d
 ```
 #### Ferramentas usadas: 
 
