@@ -9,7 +9,7 @@
 git clone https://github.com/ElcioAngelo/trabalho-devops-2290724.git
 
 # Entrar no diretório do projeto
-cd repository
+cd trabalho-devops-2290724
 
 # Parar e remover containers ativos
 docker compose down
